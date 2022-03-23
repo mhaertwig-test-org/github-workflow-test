@@ -8,15 +8,14 @@ jobs:
   deprecation_annotations:
     runs-on: ubuntu-latest
     steps:
-      - name: Grep for @deprecated annotations
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Get changed files
+      - name: Get @deprecation annotation counts
         id: deprecation_annotations
         run: echo "::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)"
-      - uses: actions/checkout@v2
-      - uses: actions-ecosystem/action-add-labels@v1
+      - name: Conditionally add label
+        uses: actions-ecosystem/action-add-labels@v1
         if: ${{ steps.deprecation_annotations.outputs.deprecated_count == '0' }}
         with:
           labels: "target: maintenance"
