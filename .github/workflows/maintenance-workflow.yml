@@ -20,4 +20,3 @@ jobs:
         if: steps.deprecations.outputs.deprecated_count == '0'
         with:
           labels: "target: maintenance"
-#
