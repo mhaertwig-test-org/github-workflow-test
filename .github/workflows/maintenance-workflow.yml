@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  deprecation_annotations:
+  add_label:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
