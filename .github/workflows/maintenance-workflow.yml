@@ -18,6 +18,6 @@ jobs:
           echo "::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)"
       - name: Conditionally add label
         uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ steps.deprecation_annotations.outputs.deprecated_count == '0' }}
+        if: ${{ steps.deprecation_annotations.deprecated_count == '0' }}
         with:
           labels: "target: maintenance"
