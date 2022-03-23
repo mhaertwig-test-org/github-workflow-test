@@ -15,6 +15,8 @@ jobs:
         id: deprecations
         run: echo '::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)'
       - uses: actions-ecosystem/action-add-labels@v1
-        if: steps.deprecations.outputs.deprecated_count == '0'
-        with:
-          labels: "target: maintenance"
+        run: echo ${{ steps.deprecations.outputs.deprecated_count }}
+        # if: steps.deprecations.outputs.deprecated_count == '0'
+        # with:
+        #   labels: "target: maintenance"
+#
