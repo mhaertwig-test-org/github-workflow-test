@@ -3,7 +3,6 @@ name: Add maintenance labels
 on:
   pull_request:
     branches: [master]
-  workflow_dispatch:
 
 jobs:
   deprecation_annotations:
