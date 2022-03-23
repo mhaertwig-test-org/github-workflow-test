@@ -1,8 +1,6 @@
 name: Add maintenance labels
 
-on:
-  pull_request:
-    branches: [master]
+on: [pull_request]
 
 jobs:
   deprecation_annotations:
