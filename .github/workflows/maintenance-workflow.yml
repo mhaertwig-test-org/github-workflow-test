@@ -3,28 +3,18 @@ name: Add maintenance labels
 on:
   pull_request:
     branches: [master]
-  workflow_dispatch:
 
 jobs:
-  deprecation_annotations:
+  add_label:
     runs-on: ubuntu-latest
-    outputs:
-      deprecated_count: ${{ steps.deprecations.outputs.deprecated_count }}
     steps:
-      - name: Grep for @deprecated annotations
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Get changed files
+      - name: Get @deprecation annotation counts
         id: deprecations
-        run: echo "::set-output name=deprecated_count::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep "@deprecated" -c)"
-  add_labels:
-    runs-on: ubuntu-latest
-    needs: deprecation_annotations
-    steps:
-      - uses: actions/checkout@v2
+        run: echo '::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)'
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ needs.deprecation_annotations.outputs.deprecated_count == '0' }}
+        if: steps.deprecations.outputs.deprecated_count == '0'
         with:
-          labels: |
-            "target: maintenance"
+          labels: "target: maintenance"
