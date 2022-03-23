@@ -8,7 +8,7 @@ jobs:
   deprecation_annotations:
     runs-on: ubuntu-latest
     outputs:
-      deprecated_count: ${{steps.deprecations.outputs.deprecated_count}}
+      deprecated_count: ${{ steps.deprecations.outputs.deprecated_count }}
     steps:
       - name: Grep for @deprecated annotations
         uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
       - name: Get changed files
         id: deprecation_annotations
         run: |
-          echo "::set-output name=deprecated_count::$(git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep "@deprecated" -c)"
+          echo "::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep "@deprecated" -c)"
           echo git diff --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
   add_label:
     runs-on: ubuntu-latest
@@ -25,6 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{needs.deprecation_annotations.outputs.deprecated_count == '0'}}
+        if: ${{ needs.deprecation_annotations.outputs.deprecated_count == '0' }}
         with:
           labels: "target: maintenance"
