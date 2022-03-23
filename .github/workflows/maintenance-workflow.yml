@@ -13,8 +13,7 @@ jobs:
           fetch-depth: 0
       - name: Get @deprecation annotation counts
         id: deprecation-annotations
-        run: |
-          echo "::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)"
+        run: echo '::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)'
       - uses: actions-ecosystem/action-add-labels@v1
         if: ${{ steps.deprecation-annotations.outputs.deprecated_count == 0 }}
         with:
