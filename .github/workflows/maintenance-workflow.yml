@@ -17,6 +17,6 @@ jobs:
       - name: Foo
         run: echo ${{ steps.deprecations.outputs.deprecated_count }}
       - uses: actions-ecosystem/action-add-labels@v1
-        # if: steps.deprecations.outputs.deprecated_count == '0'
+        if: steps.deprecations.outputs.deprecated_count == '0'
         with:
           labels: "target: maintenance"
