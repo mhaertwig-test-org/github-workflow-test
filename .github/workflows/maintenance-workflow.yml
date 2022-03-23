@@ -3,6 +3,7 @@ name: Add maintenance labels
 on:
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   add_label:
