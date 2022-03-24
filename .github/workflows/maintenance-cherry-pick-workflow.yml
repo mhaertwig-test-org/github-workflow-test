@@ -16,4 +16,4 @@ jobs:
     - name: cherry-pick
       run: |
         git checkout maintenance
-        git cherry-pick -m 1 ${{github.sha}}
+        git git -c user.name="cerry-picker" -c user.email="cherry-picker@acme.org" cherry-pick -m 1 ${{github.sha}}
