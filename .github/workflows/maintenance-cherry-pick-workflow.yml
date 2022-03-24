@@ -1,4 +1,4 @@
-name: Add or remove maintenance labels
+name: cherry-pick on maintenance branch
 
 on:
   pull_request:
