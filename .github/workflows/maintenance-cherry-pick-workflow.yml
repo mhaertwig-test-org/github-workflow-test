@@ -28,13 +28,14 @@ jobs:
     needs: cherry_pick
     if: needs.cherry_pick.outputs.exit_code == '0'
     steps:
+    - uses: actions/checkout@v3
     - name: Create branch for pull request
       run: |
-        git checkout branch  ${{ github.base_ref }}-maintenance ${{ github.sha }}
+        git checkout branch  ${{ github.event.pull_request.head.ref }}-maintenance ${{ github.sha }}
     - name: Create pull request
       uses: peter-evans/create-pull-request@v4
       with:
-        branch: ${{ github.base_ref }}-maintenance
-        title: ${{ github.base_ref }}-maintenance
+        branch: ${{ github.event.pull_request.head.ref }}-maintenance
+        title: "maintenance: ${{ github.event.pull_request.title }}"
         body: needs.cherry_pick.outputs.output
 
