@@ -16,4 +16,4 @@ jobs:
     - name: cherry-pick
       run: |
         git checkout maintenance
-        git cherry-pick ${{github.sha}}
+        git cherry-pick -m ${{github.sha}}
