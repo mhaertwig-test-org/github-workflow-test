@@ -13,10 +13,10 @@ jobs:
           fetch-depth: 0
       - name: Get @deprecation annotation counts
         id: deprecations
-        run: echo '::set-output name=deprecated_count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)'
+        run: echo "::set-output name=count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)"
       - name: Foo
-        run: echo ${{ steps.deprecations.outputs.deprecated_count }}
+        run: echo ${{ steps.deprecations.outputs.count }}
       - uses: actions-ecosystem/action-add-labels@v1
-        if: steps.deprecations.outputs.deprecated_count == '0'
+        if: steps.deprecations.outputs.count == '0'
         with:
           labels: "target: maintenance"
