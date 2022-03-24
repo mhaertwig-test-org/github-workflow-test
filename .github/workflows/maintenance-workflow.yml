@@ -20,3 +20,7 @@ jobs:
         if: steps.deprecations.outputs.count == '0'
         with:
           labels: "target: maintenance"
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: steps.deprecations.outputs.count != '0'
+        with:
+          labels: "target: maintenance"
