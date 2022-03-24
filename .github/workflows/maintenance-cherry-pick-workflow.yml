@@ -1,0 +1,21 @@
+name: Add or remove maintenance labels
+
+on:
+  pull_request:
+    branches:
+      - deploy
+    types: [closed]
+
+jobs:
+  cherry_pick:
+    runs-on: ubuntu-latest
+
+    if: github.event.pull_request.merged == true
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: cherry-pick
+      run: |
+        git checkout maintenance
+        git cherry=pick ${{github.sha}}
