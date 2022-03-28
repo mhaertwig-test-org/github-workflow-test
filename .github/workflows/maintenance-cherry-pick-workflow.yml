@@ -20,7 +20,7 @@ jobs:
       id: cherry_pick
       run: |
         git checkout maintenance
-        echo "::set-output name=output::$(git -c user.name="cherry-picker" -c user.email="cherry-picker@acme.org" cherry-pick ${{ github.sha }})"
+        echo "::set-output name=output::$(git -c user.name="cherry-picker" -c user.email="cherry-picker@acme.org" cherry-pick ${{ github.sha }} | xargs)"
         git push
   pull_request:
     runs-on: ubuntu-latest
