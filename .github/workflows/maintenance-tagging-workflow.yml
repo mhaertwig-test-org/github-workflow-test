@@ -14,8 +14,6 @@ jobs:
     - name: Get @deprecation annotation counts
       id: deprecations
       run: echo "::set-output name=count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep @deprecated -c)"
-    - name: Foo
-      run: echo ${{ steps.deprecations.outputs.count }}
     - uses: actions-ecosystem/action-add-labels@v1
       if: steps.deprecations.outputs.count == '0'
       with:
