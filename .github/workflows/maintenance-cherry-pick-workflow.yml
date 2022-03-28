@@ -27,7 +27,7 @@ jobs:
   pull_request:
     runs-on: ubuntu-latest
     needs: cherry_pick
-    # if: needs.cherry_pick.outputs.exit_code == '0'
+    if: needs.cherry_pick.outputs.exit_code == '0'
     steps:
     - uses: actions/checkout@v3
     - name: Create branch for pull request
