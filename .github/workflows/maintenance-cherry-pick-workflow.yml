@@ -33,7 +33,7 @@ jobs:
     - name: Create branch for pull request
       run: |
         git branch ${{ github.event.pull_request.head.ref }}-maintenance ${{ github.sha }}
-        git push -u
+        git push origin ${{ github.event.pull_request.head.ref }}-maintenance
     - name: Create pull request
       uses: peter-evans/create-pull-request@v4
       with:
