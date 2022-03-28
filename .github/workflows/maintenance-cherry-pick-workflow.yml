@@ -36,6 +36,7 @@ jobs:
       uses: peter-evans/create-pull-request@v4
       with:
         branch: ${{ github.event.pull_request.head.ref }}-maintenance
+        base: maintenance
         title: "maintenance: ${{ github.event.pull_request.title }}"
         body: needs.cherry_pick.outputs.output
 
