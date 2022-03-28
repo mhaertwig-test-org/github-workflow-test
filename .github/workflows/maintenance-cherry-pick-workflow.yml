@@ -18,11 +18,13 @@ jobs:
       with:
         fetch-depth: 0
     - name: cherry-pick
+      uses: actions/checkout@v3
       id: cherry_pick
       run: |
         git checkout maintenance
         echo "::set-output name=output::$(git -c user.name="cerry-picker" -c user.email="cherry-picker@acme.org" cherry-pick ${{ github.sha }})"
         echo "::set-output name=exit_code::$(echo $?)"
+        git push
   pull_request:
     runs-on: ubuntu-latest
     needs: cherry_pick
@@ -32,6 +34,7 @@ jobs:
     - name: Create branch for pull request
       run: |
         git checkout branch  ${{ github.event.pull_request.head.ref }}-maintenance ${{ github.sha }}
+        git push
     - name: Create pull request
       uses: peter-evans/create-pull-request@v4
       with:
