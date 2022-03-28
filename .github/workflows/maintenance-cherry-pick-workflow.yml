@@ -18,7 +18,6 @@ jobs:
       with:
         fetch-depth: 0
     - name: cherry-pick
-      uses: actions/checkout@v3
       id: cherry_pick
       run: |
         git checkout maintenance
