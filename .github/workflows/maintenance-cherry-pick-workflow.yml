@@ -32,7 +32,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Create branch for pull request
       run: |
-        git checkout branch  ${{ github.event.pull_request.head.ref }}-maintenance ${{ github.sha }}
+        git branch ${{ github.event.pull_request.head.ref }}-maintenance ${{ github.sha }}
         git push
     - name: Create pull request
       uses: peter-evans/create-pull-request@v4
