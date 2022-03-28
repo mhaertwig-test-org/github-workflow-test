@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       output: ${{ steps.cherry_pick.outputs.output }}
-      exit_code: ${{ steps.cherry_pick.outputs.exit_code }}
     if: |
       github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'target: maintenance')
@@ -27,7 +26,7 @@ jobs:
   pull_request:
     runs-on: ubuntu-latest
     needs: cherry_pick
-    if: needs.cherry_pick.outputs.exit_code == '0'
+    if: ${{ contains(needs.cherry_pick.outputs.exit_code, 'CONFLICT') }}
     steps:
     - uses: actions/checkout@v3
     - name: Create branch for pull request
