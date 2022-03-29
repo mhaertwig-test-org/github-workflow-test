@@ -9,8 +9,9 @@ jobs:
   cherry_pick:
     runs-on: ubuntu-latest
     # if: github.event.pull_request.merged == true
-    matrix:
-      label: ${{github.event.pull_request.labels.*.name}}
+    strategy:
+      matrix:
+        label: ${{github.event.pull_request.labels.*.name}}
     outputs:
       output: ${{ steps.cherry_pick.outputs.output }}
 
