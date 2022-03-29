@@ -5,9 +5,6 @@ on:
   pull_request:
     # types: [closed]
 
-env:
-  TARGET_RELEASE: 13.x
-
 jobs:
   cherry_pick:
     runs-on: ubuntu-latest
