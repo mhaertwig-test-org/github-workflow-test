@@ -2,12 +2,12 @@ import { Octokit } from 'octokit';
 
 const repoConfig = {
     owner: 'mhaertwig', //'sbb-design-systems',
-    repo: 'test', // 'sbb-angular',
+    repo: 'github-workflow-test', // 'sbb-angular',
 };
 
 const issuePath = {
     ...repoConfig,
-    issue_number: 1, // TODO
+    issue_number: 43, // TODO
 };
 
 const prPath = {
@@ -15,7 +15,7 @@ const prPath = {
     pull_number: parseInt(process.env['PR_NUMBER']!, 10)
 };
 
-const githubToken = process.env['GITHUB_TOKEN'] || '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';
+const githubToken = process.env['GITHUB_TOKEN'];
 
 export class MaintenanceIssueUpdater {
     constructor(private _octokit: Octokit, private _now: Date) {
