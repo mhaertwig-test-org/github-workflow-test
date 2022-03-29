@@ -31,20 +31,20 @@ jobs:
       if: steps.branch_name.outputs.branch
       run: |
         git checkout ${{ steps.branch_name.outputs.branch }}
-        echo "::set-output name=output::$(git -c user.name="cherry-picker" \
-          -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }} | xargs)"
+        git -c user.name="cherry-picker" -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }}
+        echo "::set-output name=exit_code::$(echo $?)"
         git push
 
     - uses: actions/setup-node@v3
-      if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
+      if: ${{ steps.cherry_pick.outputs.exit_code != '0' }}
       with:
         node-version: 16
 
     - uses: ./.github/actions/yarn-install
-      if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
+      if: ${{ steps.cherry_pick.outputs.exit_code != '0' }}
 
     - name: "Update maintenance issue"
-      if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
+      if: ${{ steps.cherry_pick.outputs.exit_code != '0' }}
       run: yarn ts-node scripts/update-maintenance-issue.ts
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
