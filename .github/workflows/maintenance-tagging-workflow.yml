@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
     - name: "Get commit messages containing 'BREAKING CHANGE:'"
       id: deprecations
       run: echo "::set-output name=count::$(git cherry -v master ${{ github.head_ref }} | grep 'BREAKING CHANGE:' -c)"
