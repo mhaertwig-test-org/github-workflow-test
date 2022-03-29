@@ -43,6 +43,8 @@ jobs:
 
   update_maintenance_ticket:
     runs-on: ubuntu-latest
+    needs: [ cherry_pick ]
+    if: always() && needs.cherry_pick.result == 'failure'
     steps:
     - uses: actions/setup-node@v3
       if: ${{ env.FAILED_BRANCHES }}
