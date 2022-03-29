@@ -22,7 +22,7 @@ jobs:
         git checkout maintenance
         echo "::set-output name=output::$(git -c user.name="cherry-picker" -c user.email="cherry-picker@acme.org" cherry-pick ${{ github.sha }} | xargs)"
         git push
-  pull_request:
+  update_issue:
     runs-on: ubuntu-latest
     needs: cherry_pick
     if: ${{ contains(needs.cherry_pick.outputs.output, 'CONFLICT') }}
@@ -39,4 +39,3 @@ jobs:
         base: maintenance
         title: "maintenance: ${{ github.event.pull_request.title }}"
         body: needs.cherry_pick.outputs.output
-
