@@ -34,7 +34,7 @@ jobs:
       if: steps.branch_name.outputs.branch
       run: |
         git checkout ${{ steps.branch_name.outputs.branch }}
-        git -c user.name="cherry-picker" -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }}"
+        git -c user.name="cherry-picker" -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }}
         git push
 
     - name: Update failed branches
