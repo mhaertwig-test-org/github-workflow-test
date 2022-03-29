@@ -16,7 +16,7 @@ jobs:
       matrix:
         label: ${{ github.event.pull_request.labels.*.name }}
     outputs:
-      failed_branches: ${{ steps.update_failed_branches.outputs.test }}
+      failed_branches: ${{ steps.update_failed_branches.outputs.failed_branches }}
 
     steps:
     - name: Get branch from label
