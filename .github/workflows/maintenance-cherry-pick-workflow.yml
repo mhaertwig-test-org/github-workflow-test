@@ -29,6 +29,7 @@ jobs:
     - name: Cherry-pick changes into maintenance ${{ steps.branch_name.outputs.branch }}
       id: cherry_pick
       if: steps.branch_name.outputs.branch
+      continue-on-error: true
       run: |
         git checkout ${{ steps.branch_name.outputs.branch }}
         git -c user.name="cherry-picker" -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }}
