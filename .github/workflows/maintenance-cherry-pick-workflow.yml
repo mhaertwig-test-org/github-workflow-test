@@ -26,11 +26,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Cherry-pick changes into maintenance ${{ matrix.label }}
+    - name: Cherry-pick changes into maintenance ${{ steps.branch_name.outputs.branch }}
       id: cherry_pick
       if: steps.branch_name.outputs.branch
       run: |
-        git checkout ${{ matrix.label }}
+        git checkout ${{ steps.branch_name.outputs.branch }}
         echo "::set-output name=output::$(git -c user.name="cherry-picker" \
           -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }} | xargs)"
         git push
