@@ -47,15 +47,15 @@ jobs:
     if: always() && needs.cherry_pick.result == 'failure'
     steps:
     - uses: actions/setup-node@v3
-      if: ${{ env.FAILED_BRANCHES }}
+      if: ${{ env.FAILED_BRANCHES != '' }}
       with:
         node-version: 16
 
     - uses: ./.github/actions/yarn-install
-      if: ${{ env.FAILED_BRANCHES }}
+      if: ${{ env.FAILED_BRANCHES != '' }}
 
     - name: "Update maintenance issue"
-      if: ${{ env.FAILED_BRANCHES }}
+      if: ${{ env.FAILED_BRANCHES != '' }}
       run: yarn ts-node scripts/update-maintenance-issue.ts
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
