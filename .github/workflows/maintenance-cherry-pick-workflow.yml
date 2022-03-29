@@ -43,18 +43,17 @@ jobs:
 
   update_maintenance_ticket:
     runs-on: ubuntu-latest
-    if: ${{ env.FAILED_BRANCHES }}
     steps:
     - uses: actions/setup-node@v3
-      if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
+      if: ${{ env.FAILED_BRANCHES }}
       with:
         node-version: 16
 
     - uses: ./.github/actions/yarn-install
-      if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
+      if: ${{ env.FAILED_BRANCHES }}
 
     - name: "Update maintenance issue"
-      if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
+      if: ${{ env.FAILED_BRANCHES }}
       run: yarn ts-node scripts/update-maintenance-issue.ts
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
