@@ -21,9 +21,9 @@ jobs:
       uses: actions-ecosystem/action-add-labels@v1
       if: steps.deprecations.outputs.count == '0'
       with:
-        labels: "target: ${{ TARGET_RELEASE }}"
+        labels: "target: ${{ env.TARGET_RELEASE }}"
     - name: "Remove maintenance label"
       uses: actions-ecosystem/action-remove-labels@v1
       if: steps.deprecations.outputs.count != '0'
       with:
-        labels: "target: ${{ TARGET_RELEASE }}"
+        labels: "target: ${{ env.TARGET_RELEASE }}"
