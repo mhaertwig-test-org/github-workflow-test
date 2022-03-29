@@ -17,7 +17,7 @@ const prPath = {
 
 const githubToken = process.env['GITHUB_TOKEN'] || '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';
 
-export class AngularComponentsSync {
+export class MaintenanceIssueUpdater {
     constructor(private _octokit: Octokit, private _now: Date) {
     }
 
@@ -37,7 +37,7 @@ export class AngularComponentsSync {
         let openTasks = this._extractOpenTasks(issue.data.body);
         openTasks.push(`- [ ] [${pr.data.title}](${pr.data.html_url})`)
         openTasks = [...new Set(openTasks)];
-        const dateInfo = `${new Date().toISOString()}`
+        const dateInfo = `${this._now.toISOString()}`
 
         return this._octokit.rest.issues.update({
             ...issuePath,
@@ -53,11 +53,11 @@ export class AngularComponentsSync {
 }
 
 if (module === require.main) {
-    const angularComponentsSync = new AngularComponentsSync(
+    const maintenanceIssueUpdater = new MaintenanceIssueUpdater(
         new Octokit({
             auth: githubToken,
         }),
         new Date(),
     );
-    angularComponentsSync.run();
+    maintenanceIssueUpdater.run();
 }
