@@ -40,7 +40,7 @@ jobs:
       id: update_failed_branches
       if: ${{ failure() }}
       run: |
-        echo "FAILED_BRANCHES$=$(echo ${{ env.FAILED_BRANCHES }} ${{ steps.branch_name.outputs.branch }})" >> $GITHUB_ENV
+        echo "FAILED_BRANCHES$=$(echo ${{ env.FAILED_BRANCHES }} ${{ steps.branch_name.outputs.branch }})"
         echo "::set-output name=failed_branches::$(echo ${{ env.FAILED_BRANCHES }}"
 
 
