@@ -15,7 +15,7 @@ jobs:
     - name: "Get commit messages containing BREAKING CHANGE:"
       id: breakting_changes
       run: |
-        echo "::set-output name=count::$(git cherry -v ${{ github.event.pull_request.base.sha }}..${{ github.sha }} | grep "BREAKING CHANGE:" -c)"
+        echo "::set-output name=count::$(git log ${{ github.event.pull_request.base.sha }}..${{ github.sha }} | grep "BREAKING CHANGE:" -c)"
     - name: "Add maintenance label"
       uses: actions-ecosystem/action-add-labels@v1
       if: steps.breakting_changes.outputs.count == '0'
