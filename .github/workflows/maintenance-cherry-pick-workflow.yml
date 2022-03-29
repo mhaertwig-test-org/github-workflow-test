@@ -43,7 +43,7 @@ jobs:
 
   update_maintenance_ticket:
     runs-on: ubuntu-latest
-    if: env.FAILED_BRANCHES
+    if: ${{ env.FAILED_BRANCHES }}
     steps:
     - uses: actions/setup-node@v3
       if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
