@@ -13,7 +13,7 @@ jobs:
         fetch-depth: 0
     - name: "Get @breaking-change annotation counts"
       id: deprecations
-      run: echo "::set-output name=count::$(git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | egrep "^\+" | grep '@breaking-change' -c)"
+      run: echo "::set-output name=count::$(git cherry -v master ${{ github.ref_name }} | grep "BREAKING CHANGE:" -c)"
     - name: "Add maintenance label"
       uses: actions-ecosystem/action-add-labels@v1
       if: steps.deprecations.outputs.count == '0'
