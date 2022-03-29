@@ -15,8 +15,7 @@ jobs:
       id: breakting_changes
       run: |
         echo "::set-output name=count::$(git cherry -v master ${{ github.head_ref }} | grep "BREAKING CHANGE:" -c)"
-        git branch
-        git log
+        git cherry -v master ${{ github.head_ref }}
     - name: "Add maintenance label"
       uses: actions-ecosystem/action-add-labels@v1
       if: steps.breakting_changes.outputs.count == '0'
