@@ -37,7 +37,7 @@ jobs:
       id: update_failed_branches
       if: ${{ failure() }}
       run: |
-        echo "::set-output name=failed_branches::$(echo ${{ env.FAILED_BRANCHES }} ${{ steps.update_failed_branches.outputs.failed_branches}})"
+        echo "::set-output name=failed_branches::$(echo ${{ steps.branch_name.outputs.branch }} ${{ steps.update_failed_branches.outputs.failed_branches}})"
 
 
   update_maintenance_ticket:
