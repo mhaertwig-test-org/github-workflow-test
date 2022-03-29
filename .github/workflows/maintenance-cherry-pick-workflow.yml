@@ -32,7 +32,7 @@ jobs:
       run: |
         git checkout ${{ steps.branch_name.outputs.branch }}
         echo "::set-output name=output::$(git -c user.name="cherry-picker" \
-          -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }} | xargs)"
+          -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }} && echo $?)"
         git push
 
     - uses: actions/setup-node@v3
