@@ -1,4 +1,4 @@
-name: cherry-pick on maintenance branch
+name: cherry-pick into target branches
 
 on:
   workflow_dispatch:
