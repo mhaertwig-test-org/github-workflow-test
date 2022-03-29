@@ -5,6 +5,9 @@ on:
   pull_request:
     # types: [closed]
 
+env:
+  FAILED_BRANCHES:
+
 jobs:
   cherry_pick:
     runs-on: ubuntu-latest
@@ -31,10 +34,17 @@ jobs:
       if: steps.branch_name.outputs.branch
       run: |
         git checkout ${{ steps.branch_name.outputs.branch }}
-        echo "::set-output name=output::$(git -c user.name="cherry-picker" \
-          -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }} && echo $?)"
+        git -c user.name="cherry-picker" -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }} | xargs)"
         git push
 
+    - name: Update failed branches
+      if: ${{ failure() }}
+      run: echo "FAILED_BRANCHES$=$(echo ${{ env.FAILED_BRANCHES }} ${{ steps.branch_name.outputs.branch }})" >> $GITHUB_ENV
+
+  update_maintenance_ticket:
+    runs-on: ubuntu-latest
+    if: env.FAILED_BRANCHES
+    steps:
     - uses: actions/setup-node@v3
       if: ${{ contains(steps.cherry_pick.outputs.output, 'CONFLICT') }}
       with:
@@ -49,4 +59,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_NUMBER: ${{ github.event.number }}
-        TARGET_BRANCH: ${{ matrix.label }}
+        FAILED_BRANCHES: ${{ env.FAILED_BRANCHES }}
