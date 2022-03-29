@@ -10,12 +10,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
+        ref: ${{ github.head_ref }}
         fetch-depth: 0
     - name: "Get commit messages containing BREAKING CHANGE:"
       id: breakting_changes
       run: |
         echo "::set-output name=count::$(git log master..${{ github.head_ref }} | grep "BREAKING CHANGE:" -c)"
-        git cherry -v master ${{ github.head_ref }}
     - name: "Add maintenance label"
       uses: actions-ecosystem/action-add-labels@v1
       if: steps.breakting_changes.outputs.count == '0'
