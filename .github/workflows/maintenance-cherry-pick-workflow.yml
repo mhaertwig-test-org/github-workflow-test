@@ -16,12 +16,12 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: "Cherry-pick changes into master"
+    - name: "Cherry-pick changes into maintenance"
       id: cherry_pick
       run: |
         git checkout maintenance
-        echo "::set-output name=output::$(git -c user.name="cherry-picker" 
-          -c user.email="cherry-picker@acme.org" cherry-pick ${{ github.sha }} | xargs)"
+        echo "::set-output name=output::$(git -c user.name="cherry-picker" \
+          -c user.email="cherry.picker@sbb.ch" cherry-pick ${{ github.sha }} | xargs)"
         git push
   update_issue:
     runs-on: ubuntu-latest
