@@ -11,17 +11,13 @@ env:
 jobs:
   add_label:
     runs-on: ubuntu-latest
+    if: ${{ contains(github.event.pull_request.body, 'BREAKING CHANGE:') }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: "Add target label"
-        uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ !contains(github.event.pull_request.description, 'BREAKING_CHANGE:') }}
-        with:
-          labels: "target: ${{ env.TARGET_RELEASE }}"
-      - name: "Remove target label"
-        uses: actions-ecosystem/action-remove-labels@v1
-        if: ${{ contains(github.event.pull_request.description, 'BREAKING_CHANGE:') }}
-        with:
-          labels: "target: ${{ env.TARGET_RELEASE }}"
+    - name: "Add target label"
+      uses: actions-ecosystem/action-add-labels@v1
+      with:
+        labels: "target: ${{ env.TARGET_RELEASE }}"
+    - name: "Remove target label"
+      uses: actions-ecosystem/action-remove-labels@v1
+      with:
+        labels: "target: ${{ env.TARGET_RELEASE }}"
