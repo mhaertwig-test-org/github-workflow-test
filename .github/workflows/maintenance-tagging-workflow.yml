@@ -2,6 +2,7 @@ name: Add or remove maintenance labels
 
 on:
   pull_request:
+    types: [opened, edited]
     branches: [master]
 
 env:
@@ -19,11 +20,11 @@ jobs:
         run: echo "::set-output name=count::$(git cherry -v origin/master origin/${{ github.head_ref }} | grep "BREAKING CHANGE:" -c)"
       - name: "Add target label"
         uses: actions-ecosystem/action-add-labels@v1
-        if: steps.breaking_changes.outputs.count == '0'
+        if: ${{ contains(github.event.pull_request.description, 'BREAKING_CHANGE:') }}
         with:
           labels: "target: ${{ env.TARGET_RELEASE }}"
       - name: "Remove target label"
         uses: actions-ecosystem/action-remove-labels@v1
-        if: steps.breaking_changes.outputs.count != '0'
+        if: ${{ !contains(github.event.pull_request.description, 'BREAKING_CHANGE:') }}
         with:
           labels: "target: ${{ env.TARGET_RELEASE }}"
