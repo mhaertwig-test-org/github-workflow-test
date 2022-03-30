@@ -11,7 +11,7 @@ const repoConfig = {
 
 const issuePath = {
   ...repoConfig,
-  issue_number: 1346,
+  issue_number: 2,
 };
 
 const prPath = {
