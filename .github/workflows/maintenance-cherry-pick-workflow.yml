@@ -9,6 +9,7 @@ jobs:
    # We cannot use `if` here because the matrix is evaluated before the `if` statement.
   check_labels:
     if: ${{ join(github.event.pull_request.labels) != '' }}
+    runs-on: ubuntu-latest
     steps:
       - run: echo Labels are not empty, continuing
   cherry_pick:
