@@ -7,7 +7,7 @@ on:
 jobs:
   cherry_pick:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && github.event.pull_request.labels
     outputs:
       failed_branches: ${{ steps.update_failed_branches.outputs.failed_branches }}
     strategy:
