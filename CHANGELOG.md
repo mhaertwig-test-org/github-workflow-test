@@ -29,3 +29,7 @@ Skipping step 8 to be faster
 ## v0.0.9
 
 Argh!
+
+## v0.0.10
+
+Feierabend soon
