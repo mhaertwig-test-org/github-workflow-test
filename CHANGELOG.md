@@ -21,3 +21,7 @@ I'm getting closer
 ## v0.0.6
 
 Almost...
+
+## v0.0.8
+
+Skipping step 8 to be faster
