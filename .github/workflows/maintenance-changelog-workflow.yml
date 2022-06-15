@@ -21,7 +21,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email="github-actions@github.com"
           git checkout ${{ github.event.repository.default_branch }}
-          git cherry-pick --no-commit ${{ env.TAG_COMMIT }})
+          git cherry-pick --no-commit ${{ env.TAG_COMMIT }}
           git add CHANGELOG.md
           git checkout .
           git commit -m "chore: update changelog"

@@ -17,3 +17,7 @@ Fourth test
 ## v0.0.5
 
 I'm getting closer
+
+## v0.0.6
+
+Almost...
