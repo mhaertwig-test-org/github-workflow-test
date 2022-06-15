@@ -37,3 +37,7 @@ Feierabend soon
 ## v0.0.11
 
 I want to get this working
+
+## v0.0.12
+
+Pretty sure it's working now
