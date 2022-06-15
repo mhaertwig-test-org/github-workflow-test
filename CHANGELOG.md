@@ -9,3 +9,7 @@ First test to cherry-pick the changelog
 ## v0.0.3
 
 Second test
+
+## v0.0.4
+
+Fourth test
