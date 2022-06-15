@@ -33,3 +33,7 @@ Argh!
 ## v0.0.10
 
 Feierabend soon
+
+## v0.0.11
+
+I want to get this working
