@@ -1,0 +1,26 @@
+name: cherry-pick into target branches
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  cherry_pick:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Cherry-pick CHANGELOG.md into  ${{ github.event.repository.default_branch }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email="github-actions@github.com"
+          
+          git checkout ${{ github.event.repository.default_branch }}
+          git cherry-pick --no-commit $(git rev-list -n 1 ${GITHUB_REF/refs\/tags\//})
+          git add CHANGELOG.md
+          git checkout .
+          git commit -m "chore: update changelog"
+          git push
