@@ -9,7 +9,7 @@ jobs:
   cherry_pick:
     runs-on: ubuntu-latest
     outputs:
-      failed_release_version: ${{ steps.cherry_pick_error.failed_release_version }}
+      failed_release_version: ${{ steps.cherry_pick_error.outputs.failed_release_version }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -32,8 +32,7 @@ jobs:
       - name: Handling error
         if: ${{ failure() }}
         id: cherry_pick_error
-        run: |
-          echo "::set-output name=failed_release_version::$(echo ${{ env.RELEASE_VERSION }})"
+        run: echo "::set-output name=failed_release_version::$(echo ${{ env.RELEASE_VERSION }})"
 
   update_maintenance_issue:
     runs-on: ubuntu-latest
