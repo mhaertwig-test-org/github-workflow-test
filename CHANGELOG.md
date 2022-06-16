@@ -73,11 +73,3 @@ This should not work because of branch protection - one more test without confli
 ## v0.0.30
 
 Validation
-
-## v0.0.31
-
-Another test
-
-## v0.0.32
-
-Another test with bot permissions
