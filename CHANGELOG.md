@@ -49,3 +49,7 @@ Making some more tests
 ## v0.0.15
 
 Producing a merge conflict
+
+## v0.0.21
+
+This should not work because of branch protection
