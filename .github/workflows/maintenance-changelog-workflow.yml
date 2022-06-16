@@ -8,6 +8,8 @@ on:
 jobs:
   cherry_pick:
     runs-on: ubuntu-latest
+    outputs:
+      failed_release_version: ${{ steps.cherry_pick_error.failed_release_version }}
     steps:
       - uses: actions/checkout@v3
         with:
