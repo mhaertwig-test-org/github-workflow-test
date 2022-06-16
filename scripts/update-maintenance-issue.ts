@@ -1,9 +1,21 @@
-import { Octokit } from 'octokit';
+import {Octokit} from 'octokit';
 
 const githubToken = process.env['GITHUB_TOKEN'];
 const pullRequestNumber = parseInt(process.env['PR_NUMBER']!, 10);
-const failedBranches = process.env['FAILED_BRANCHES']!.split(' ').join(', ');
+const failedBranches = process.env['FAILED_BRANCHES']?.split(' ').join(', ');
+const failedReleaseVersion = process.env['FAILED_RELEASE'];
 
+/**
+const repoConfig = {
+  owner: 'sbb-design-systems',
+  repo: 'sbb-angular',
+};
+
+const issuePath = {
+  ...repoConfig,
+  issue_number: 1346,
+};
+ */
 const repoConfig = {
   owner: 'mhaertwig',
   repo: 'github-workflow-test',
@@ -11,7 +23,7 @@ const repoConfig = {
 
 const issuePath = {
   ...repoConfig,
-  issue_number: 2,
+  issue_number: 42, // TODO: 1346,
 };
 
 const prPath = {
@@ -20,27 +32,40 @@ const prPath = {
 };
 
 class MaintenanceIssueUpdater {
-  constructor(private _octokit: Octokit, private _now: Date) {}
+  constructor(private _octokit: Octokit, private _now: Date) {
+  }
 
   async run() {
+    if (!failedBranches && !failedReleaseVersion) {
+      throw new Error(`
+        Unable to update maintenance issue. 
+        Please either specify FAILED_BRANCHES or FAILED_RELEASE
+      `)
+    }
+
     const issue = await this._octokit.rest.issues.get(issuePath);
-    const pr = await this._octokit.rest.pulls.get(prPath);
 
     if (!issue.data.body) {
       throw new Error('Could not load issue body');
     }
 
-    if (!pr.data.title || !pr.data.html_url) {
-      throw new Error('Could not load pull request');
-    }
-
-    const hint = '**Unable to cherry-pick the following pull requests**';
+    const hint = '**Cherry-pick failed for the following pull requests / releases**';
     const dateInfo = `${this._now.toISOString()}`;
     let openTasks = this._extractOpenTasks(issue.data.body);
-    openTasks = this._addNewTask(
-      openTasks,
-      `- [ ] [${pr.data.title}](${pr.data.html_url}) (Branches: ${failedBranches})`
-    );
+    let newTask;
+
+    if (failedBranches) {
+      const pr = await this._octokit.rest.pulls.get(prPath);
+      if (!pr.data.title || !pr.data.html_url) {
+        throw new Error('Could not load pull request');
+      }
+
+      newTask = `- [ ] PR [${pr.data.title}](${pr.data.html_url}) could not be cherry-picked into branch ${failedBranches})`
+    } else {
+      newTask = `- [ ] CHANGELOG.md could not be cherry-picked for release ${failedReleaseVersion}`
+    }
+
+    openTasks = this._addNewTask(openTasks, newTask);
 
     return this._octokit.rest.issues.update({
       ...issuePath,
@@ -53,17 +78,17 @@ class MaintenanceIssueUpdater {
   }
 
   private _addNewTask(tasks: string[], newTask: string): string[] {
-    const newTasks = [...tasks, newTask];
+    const newTasks = [newTask, ...tasks];
     return [...new Set(newTasks)];
   }
 }
 
 if (module === require.main) {
   const maintenanceIssueUpdater = new MaintenanceIssueUpdater(
-    new Octokit({
-      auth: githubToken,
-    }),
-    new Date()
+      new Octokit({
+        auth: githubToken,
+      }),
+      new Date()
   );
   maintenanceIssueUpdater.run();
 }
