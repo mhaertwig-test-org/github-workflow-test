@@ -48,4 +48,4 @@ Making some more tests
 
 ## v0.0.15
 
-Conflict
+Conflict 2
