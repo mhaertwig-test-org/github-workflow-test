@@ -77,3 +77,7 @@ Validation
 ## v0.0.31
 
 Another test
+
+## v0.0.32
+
+Another test with bot permissions
