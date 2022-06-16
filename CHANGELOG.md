@@ -53,3 +53,7 @@ Producing a merge conflict
 ## v0.0.21
 
 This should not work because of branch protection
+
+## v0.0.22
+
+This should also not work because of branch protection
