@@ -65,3 +65,7 @@ This should not work because of branch protection, too
 ## v0.0.28
 
 This should not work because of branch protection - one more test
+
+## v0.0.29
+
+This should not work because of branch protection - one more test without conflicts
