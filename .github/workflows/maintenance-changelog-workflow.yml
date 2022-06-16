@@ -2,17 +2,23 @@ name: cherry-pick changelog into default branch
 
 on:
   push:
-    tags:
-      - '*'
-
+    tags: ['*.*']
+    branches: ['*.x']  # target branch
 jobs:
   cherry_pick:
     runs-on: ubuntu-latest
     outputs:
       failed_release_version: ${{ steps.cherry_pick_error.outputs.failed_release_version }}
     steps:
+      - name: Get token
+        id: get_token
+        uses: machine-learning-apps/actions-app-token@master
+        with:
+          APP_PEM: ${{ secrets.RENOVATE_APP_PEM }}
+          APP_ID: ${{ secrets.RENOVATE_APP_ID }}
       - uses: actions/checkout@v3
         with:
+          token: ${{ steps.get_token.outputs.app_token }}
           fetch-depth: 0
       - name: Get tag name
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV

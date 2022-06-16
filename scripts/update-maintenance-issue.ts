@@ -23,7 +23,7 @@ const repoConfig = {
 
 const issuePath = {
   ...repoConfig,
-  issue_number: 42, // TODO: 1346,
+  issue_number: 43, // TODO: 1346,
 };
 
 const prPath = {
